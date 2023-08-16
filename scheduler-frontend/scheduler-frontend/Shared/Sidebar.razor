@@ -11,7 +11,7 @@
         border: 3px solid #eee;
     }
     .sidebar{
-        position: absolute;
+        position: static;
         top: 0;
         left: 0;
         height: 100vh;
@@ -23,18 +23,21 @@
     .sidebar.active{
         width: 250px;
     }
+    .top{
+        display: flex;
+    }
     .sidebar #btn{
-        position: absolute;
+        position: static;
         color: white;
         top: .4rem;
-        left: 50%;
+        left: 5%;
         font-size: 1.2rem;
         line-height: 50px;
         transform: translateX(-50%);
         cursor: pointer;
     }
     .sidebar.active #btn{
-        left: 90%;
+        left: 17%;
     }
     .sidebar .top .logo{
         color: white;
@@ -43,9 +46,13 @@
         width: 100%;
         align-items: center;
         pointer-events: none;
-        opacity: 0;
+        
     }
-    .sidebar.active .top .logo{
+
+        .sidebar .top .logo span{
+            opacity: 0;
+        }
+        .sidebar.active .top .logo span{
         opacity: 1;
     }
     .top .logo i{
