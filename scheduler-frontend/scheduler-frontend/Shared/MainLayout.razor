@@ -1,12 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
+<div class="page" style="display: flex;">
     <div class="sidebar">
         <Sidebar />
     </div>
     @*<Sidebar />*@
-    <main>
+    <main style="display: flex">
         @*<Navbar />*@
+        
         <article class="content px-4">
             @Body
         </article>

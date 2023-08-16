@@ -6,8 +6,9 @@
     }
     .user-img{
         width: 50px;
+        height: 50px;
         border-radius: 100%;
-        border: 1px solid #eee;
+        border: 3px solid #eee;
     }
     .sidebar{
         position: absolute;
@@ -92,8 +93,8 @@
         padding-left: 0;
     }
     .sidebar ul li a:hover{
-        background-color: #fff;
-        color: #222;
+        background-color: teal;
+        color: whitesmoke;
     }
     .sidebar ul li a i{
         min-width: 50px;
@@ -136,7 +137,7 @@
         <i class="bx bx-menu" id="btn" @onclick="@ToggleNavbar"></i>
     </div>
     <div class="user">
-        <img src="~/icon-192.png" alt="" class="user-img"/>
+        <img src="./freeimage.jpg" alt="" class="user-img"/>
         <div>
             <p class="bold">Praise</p>
             <p>Admin</p>
@@ -159,7 +160,7 @@
         </li>
         <li>
             <a href="#">
-                <i class="bx bxs-grid-alt"></i>
+                <i class="bx bx-key"></i>
                 <span class="nav-item">Credentials</span>
             </a>
             <span class="tooltip">Credentials</span>
