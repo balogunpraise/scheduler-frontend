@@ -46,9 +46,11 @@ namespace schedulerfrontend.Services
             return loginResult;
         }
 
-        public Task Logout()
+        public async Task Logout()
         {
-            throw new NotImplementedException();
+            await _localStorageService.RemoveItemAsync("authToken");
+            ((ApiAuthenticationStateProvider)_stateProvider).MarkUserAsLoggedOut();
+            _httpClient.DefaultRequestHeaders.Authorization = null;
         }
 
       
