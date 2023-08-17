@@ -1,4 +1,6 @@
 ﻿@page "/account/login"
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
 @layout EmptyLayout
 <style>
     *{
@@ -32,12 +34,17 @@
 </style>
 
 <body>
+    @if(ShowErrors){
+        <div class="alert alert-danger" role="alert">
+            <p>@Error</p>
+        </div>
+    }
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="row border rounded-3 p-3 bg-white shadow box-area">
             <div class="col-md-6 rounded-3 d-flex justify-content-center align-items-center flex-column left-box" style="background: teal;">
                 <div class="featured-image mb-3">
                     <img src="./clipart.png" class="img-fluid" style="width: 400px"/>
-                    <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Be Verified</p>
+                    <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">i-Magneto...</p>
                     <small class="text-white text-wrap text-center" style="width: 17rem; font-family: 'Courier New', Courier, monospace;">The perfect utility application just for you.</small>
                 </div>
             </div>
@@ -47,24 +54,32 @@
                         <h2>Hello, Again</h2>
                         <p>We are glad to have you back.</p>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address"/>
-                    </div>
-                    <div class="input-group mb-1">
-                        <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" />
-                    </div>
-                    <div class="input-group mb-5 d-flex justify-content-between">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="formCheck" />
-                            <label for="formCheck" class="form-check-label text-secondary"><small>Remember Me</small></label>
+                    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+                        <DataAnnotationsValidator />
+                        @*<ValidationSummary />*@
+                        <div class="input-group mb-3">
+                            <input type="email" @bind-value="loginModel.Email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" style="display:block"/>
+                            <p>
+                                <ValidationMessage For="@(()=>loginModel.Email)" style="font-size: 10px;" />
+                            </p> 
                         </div>
-                        <div class="forgot">
-                            <small><a href="#" style="text-decoration: none;">Forgot Password?</a></small>
+                        <div class="input-group mb-1">
+                            <input type="password" @bind-value="loginModel.Password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" />
+                            <ValidationMessage For="@(()=>loginModel.Password)" style="font-size: 10px;" />
                         </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-lg btn-primary w-100 fs-6" style="background: teal;">Login</button>
-                    </div>
+                        <div class="input-group mb-5 d-flex justify-content-between">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="formCheck" />
+                                <label for="formCheck" class="form-check-label text-secondary"><small>Remember Me</small></label>
+                            </div>
+                            <div class="forgot">
+                                <small><a href="#" style="text-decoration: none;">Forgot Password?</a></small>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <button type="submit" class="btn btn-lg btn-primary w-100 fs-6" style="background: teal;">Login</button>
+                        </div>
+                    </EditForm>
                     <div class="input-group mb-3">
                         <button class="btn btn-lg btn-light w-100 fs-6"><img src="./google.webp" style="width:20px" class="me-2"/><small>Sign In with Google</small></button>
                     </div>
@@ -78,5 +93,22 @@
 </body>
 
 @code {
+    private LoginModel loginModel = new LoginModel();
+    private bool ShowErrors = false;
+    private string Error = "";
 
+    private async Task HandleLogin()
+    {
+        ShowErrors = false;
+        var result = await AuthService.Login(loginModel);
+        if (result.Successful)
+        {
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            Error = result.Error;
+            ShowErrors = true;
+        }
+    }
 }
